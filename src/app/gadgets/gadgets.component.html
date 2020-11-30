@@ -1,0 +1,102 @@
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 style="text-align: center">Gadgets List</h1><br>
+            <div class="row" [hidden]="!deleteMessage">
+    
+                      <div class="col-sm-4"></div>
+                      <div class="col-sm-4">
+                              <div class="alert alert-info alert-dismissible">
+                                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                      <strong>Gadget Data Deleted</strong>
+                              </div>
+                      </div>
+                      <div class="col-sm-4"></div>
+              </div>           
+          </div>
+      
+        
+        <div class="panel-body">
+            <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"  >
+                <thead class="thead-light">
+                    <tr>
+                        <th>Model</th>
+                        <th>SerialNo</th>
+                        <th>McType</th>
+                        <th>Date Of Assign</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let gadget of gadgets">
+                        <td>{{gadget.model}}</td>
+                        <td>{{gadget.serialNo}}</td>
+                        <td>{{gadget.mcType}}</td>
+                        <td>{{gadget.dateOfAssigne}}</td>
+                        <td>{{gadget.status}}</td>
+                        <td>
+                          <button class='btn btn-danger' (click)="GadgetSelected(gadget)" [disabled]="gadget.status == 'RETURNED'"
+                          data-toggle="modal" data-target="#myModal">Report problem</button>
+                        </td>
+                      </tr> 
+                </tbody><br>
+            </table>
+        </div>
+      </div>
+
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form [formGroup]="gadgetform" #createTicket (ngSubmit)="CreateTicket(createTicket)">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" style="text-align: center">Report problem</h4>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div [hidden]="isTicketRaised">
+
+                  <div class="form-group">
+                    <label for="companyName" class="sr-only">Company Name</label>
+                    <input [readonly]="true" formControlName="companyName" type="text" name="companyName" id="companyName" class="form-control" placeholder="Enter Company Name" [(ngModel)]="gadget.companyName">
+                  </div>
+                  <div class="form-group">
+                    <label for="model" class="sr-only">Model</label>
+                    <input formControlName="model" type="text" name="model" id="model" class="form-control" placeholder="Enter Model" [(ngModel)]="gadget.model">
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="serialNo" class="sr-only">SerialNo</label>
+                    <input [readonly]="true" formControlName="serialNo" type="text"  name="serialNo" id="serialNo" class="form-control" placeholder="Enter SerialNo" [(ngModel)]="gadget.serialNo">
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="mcType" class="sr-only">McType</label>
+                    <input [readonly]="true" formControlName="mcType" type="text"  name="mcType" id="mcType" class="form-control" placeholder="Enter McType" [(ngModel)]="gadget.mcType">
+                  </div>
+                  <div class="form-group">
+                    <label for="problem" class="sr-only">problem</label>
+                    <input formControlName="problem" type="text" name="problem" id="problem" class="form-control" placeholder="Enter Issue">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="clientComment" class="sr-only">Client Comment</label>
+                    <textarea formControlName="clientComment" type="text" name="clientComment" id="clientComment" class="form-control" placeholder="Enter Comment" rows="5" cols="20"></textarea>
+                  </div>
+                </div>  
+                  <div [hidden]="!isTicketRaised">
+                      <h4>Ticket Submited Successfuly!</h4>
+                  </div>        
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer" >
+              <button type="submit" class="btn btn-success" [disabled]="isTicketRaised">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="refresh()">Close</button>
+            </div>
+
+           </form>
+          </div>
+        </div>
+      </div>

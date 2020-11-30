@@ -1,0 +1,35 @@
+
+<div class="datatable">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 style="text-align: center">Tickets Raised</h1><br>       
+      </div>
+  
+    <div class="panel-body">
+        <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"  >
+            <thead class="thead-light">
+                <tr>
+                    <th>Complaint Id</th>
+                    <th>Model</th>
+                    <th>SerialNo</th>
+                    <th>McType</th>
+                    <th>Issue</th>
+                    <th>Date Of Ticket Raised</th>
+                    <th>Ticket Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr *ngFor="let ticket of tickets">
+                    <td>{{ticket.complaintId}}</td>
+                    <td>{{ticket.model}}</td>
+                    <td>{{ticket.serialNo}}</td>
+                    <td>{{ticket.mcType}}</td>
+                    <td>{{ticket.problem}}</td>
+                    <td>{{ticket.date | date:'short'}}</td>
+                    <td>{{ticket.complaintStatus}}</td>
+                  </tr> 
+            </tbody><br>
+        </table>
+    </div>
+  </div> 
